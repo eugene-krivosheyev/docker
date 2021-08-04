@@ -5,6 +5,7 @@ Intro to Docker
 Записи
 ======
 - [30.07](https://us02web.zoom.us/rec/share/nyZe82z8KrgSjWjHD-u1SXLiTUrTd0e2ofKr77FScQC_c0u3k2x6gzY0hqEm8eq9.w2dW0IJ4tyq4dBs7)
+- [04.08](https://us02web.zoom.us/rec/share/eEUM9fMBx7aMZaTEPbx8ZbnG1yc0wZBQ3Lx9ZkM4l1x3IOeYWyXXfbrG_ildKLEB.LVwQ_DxNeYTL10NX)
 
 Prerequisites
 =============
