@@ -235,6 +235,7 @@ $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nate/dockviz imag
 - `docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nate/dockviz images -t`
 - `docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen`
 - [dive](https://github.com/wagoodman/dive)
+- [ ] Ограничение количества слоев: [127](https://github.com/docker/docker.github.io/issues/8230)
 
 Hands-on practice quest #01: pre-built disk image lifecycle (15+5)
 ---------------------------
