@@ -8,6 +8,7 @@ Intro to Docker
 - [04.08](https://us02web.zoom.us/rec/share/eEUM9fMBx7aMZaTEPbx8ZbnG1yc0wZBQ3Lx9ZkM4l1x3IOeYWyXXfbrG_ildKLEB.LVwQ_DxNeYTL10NX)
 - [06.08](https://us02web.zoom.us/rec/share/NWc81ErraD8JAub742-kIm-TPa79i_OQ-q7scO63I-pZsH7M8LdPTu-v-aljw4c6.hW8x-RzWvvgywnSH)
 - [11.08](https://us02web.zoom.us/rec/share/Q6NDtO3gIDSPGHMj3gpRBH8dVe2LqEEUIgvPdOvtrMbLeyyGdjpNzI845rErnc7y.zo_C8wu86mGMrgbK)
+- [13.08](https://us02web.zoom.us/rec/share/41x-v4j5JlEvpdEZRKaSqer3z1V7yJu-na74y-oT-y1rg4r3nSjm6jeSAm2CsYeZ._Fa2hHng-LZknN1t)
 
 Prerequisites
 =============
