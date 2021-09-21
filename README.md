@@ -2,6 +2,10 @@ Intro to Docker
 ===============
 8 часов, 2 ак. дня.
 
+Записи
+======
+- [21.09](https://us02web.zoom.us/rec/share/inel1jH_rDwaDrczRjjZpn9JZfc_RT6Y9DYNq-B8Pupz-wmyKLG238rN57e7LLte.X23MX0B-H9k46iHG)
+
 Prerequisites
 =============
 - [ ] RAM ≥ 4Gb
