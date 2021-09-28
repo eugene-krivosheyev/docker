@@ -79,6 +79,8 @@ container #--# host : "port\nmapping"
 - GUI в IDEA
 - ...
 
+- [ ] [dockerd может быть удаленный](https://nickjanetakis.com/blog/docker-tip-73-connecting-to-a-remote-docker-daemon) или в VM, а клиенты – локальные, в т.ч. windows
+- [ ] Альтернативные сборщики OCI-образов без участия нативных инструментов docker: [jib](https://github.com/GoogleContainerTools/jib)
 - [ ] Итого
 ```
 Контейнер – это новый экзешник. Переносимый, безопасный и управляемый.
@@ -161,7 +163,8 @@ docker container rm [--force] demo
 - [ ] Что должно быть на диске для запуска и работы контейнеризованного приложения?
 - [ ] Состав образа диска (от `scratch` до prod-ready)
 - OS libraries
-- OS executables
+- OS Package manager (для удобной установки зависимостей, нужен на этапе сборки образа)
+- OS executables (для отладки, мониторинга и траблшутинга контейнеров на этапе эксплуатации)
 - Application libraries
 - Application executables
 - Config files
@@ -506,6 +509,18 @@ Hello Alpine
 - опасность `:latest`
 - semantic versioning
 - unique tags
+
+- [ ] Кратко по оптимизации сборки:
+(подробнее в отдельном модуле)
+- Сборка `FROM scratch`, "пинцетный метод"
+- Изменение порядка директив в Dockerfile, чтобы максимально повторно использовать кеш Docker builder
+- Объединение директив, чтобы снизить количество слоёв образа
+- Multi-stage build, чтобы не тащить в итоговый образ инфраструктуру сборки
+- Объединение слоёв образа в один слой
+```shell
+docker build --squash ...
+```
+[bash-docker-squash](https://github.com/qwertycody/Bash_Docker_Squash), [docker-squash](https://github.com/goldmann/docker-squash)
 
 Hands-on practice quest #03-1: preparing base image with JRE (15)
 ---------------------------
