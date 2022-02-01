@@ -720,7 +720,7 @@ docker container rm [--force]
 cd application
 docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у folder абсолютные, начинаются с "/"
 ```
-- [Volumes](https://docs.docker.com/storage/volumes/) как блочные устройства
+- [Volumes](https://docs.docker.com/storage/volumes/) как инкапсулированные хранилища данных
 ```shell
 cd application
 docker container run --volume my_volume:/folder/file:ro # имя volume не начинается с "/"
@@ -1006,7 +1006,7 @@ docker builder prune [--all]
 
 - [ ] ["Docker-из-docker"](https://stackoverflow.com/a/33003273)?
 - [ ] [Автотесты для Dockerfile](https://medium.com/@renatomefi/unit-testing-writing-dockerfiles-like-a-software-developer-1759f416ce84)
-- [ ] Паттерн [Builder](https://blog.alexellis.io/mutli-stage-docker-builds/) vs ["multi-stage build"](https://docs.docker.com/develop/develop-images/multistage-build/) для конвейера разработки и поставки ПО: CI/CD pipeline
+- [ ] Паттерн [Builder](https://blog.alexellis.io/mutli-stage-docker-builds/) / ["multi-stage build"](https://docs.docker.com/develop/develop-images/multistage-build/) для конвейера разработки и поставки ПО: CI/CD pipeline
 - в том числе, чтобы в итоговый образ не утекли чувствительные данные
 
 Hands-on practice quest #09: build-optimized networked multi-component stateful application resource-limited _best practice based_ containerization (10+5)
