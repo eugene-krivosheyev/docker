@@ -20,7 +20,7 @@ Agenda
 
 Формат
 ------
-- две части курса: обязательная базовая для всех ролей и расширенные темы больше в сторону эксплуатации
+- две части курса: вводная и основная
 
 Введение в Docker (15)
 -----------------
@@ -472,7 +472,7 @@ Successfully built 99cc1ad10469
 ```
 - [ ] Структура Dockerfile и декларативность директив
 - [ ] Ключевые [директивы Dockerfile](https://docs.docker.com/engine/reference/builder)
-- [`FROM`](https://docs.docker.com/engine/reference/builder/#from)
+- [`FROM`](https://docs.docker.com/engine/reference/builder/#from) + [`--platform=`](https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/)
 - [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir) создаст папку при необходимости
 - [`COPY`](https://docs.docker.com/engine/reference/builder/#copy) [and](https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile/24958548#24958548) [`ADD`](https://docs.docker.com/engine/reference/builder/#add) from build context (+ [`.dockerignore`](https://docs.docker.com/engine/reference/builder/#dockerignore-file))
 - [`RUN`](https://docs.docker.com/engine/reference/builder/#run) (+ `shell` and preferred `exec` forms) and [`SHELL`](https://docs.docker.com/engine/reference/builder/#shell) for non-default shell
@@ -544,21 +544,22 @@ application
 │   └── wiremock-standalone-2.27.2.jar
 └── docker-compose.yml
 ```
-- Создана рабочая папка проекта
+- Дана рабочая папка проекта
 ```shell
-mkdir application
+cd application
 ```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как создать и опубликовать собственный образ на основе Dockerfile?"
 ```shell
-cd application
 cat backend/Dockerfile # check it for reference of new base/Dockerfile
 
 mkdir base
 nano base/Dockerfile #TODO describe image that based on CentOS fixed fresh available version and install java-1.8.0-openjdk-headless with `yum install -y`
 
-docker image build --tag {{ registry-account }}/base:1.0.0 ./base # where Dockerfile located
+docker image build \
+ --tag {{ registry-account }}/base:1.0.0 \ # -t
+ ./base # where Dockerfile located
 docker image push {{ registry-account }}/base:1.0.0
 ```
 
@@ -585,7 +586,9 @@ cat Dockerfile # check out application's default configuration
 - Сценарий "Как собрать свой образ с приложением на базе Dockerfile?"
 ```shell
 cd application
-docker image build --tag {{ registry-account }}/backend:1.0.0 ./backend
+docker image build \
+ --tag {{ registry-account }}/backend:1.0.0 \ # -t
+ ./backend
 ```
 
 - Сценарий "Как сохранить образ в репозитории?"
@@ -600,9 +603,9 @@ docker container run \
  --name backend \
  --rm \ # одноразовый: удалится после остановки
  --detach \ # -d
- --publish 8080:8080 \ # [host address:]8080:8080
- --env SPRING_PROFILES_ACTIVE=qa \ # в контейнере действует переменная окружения
- --volume $(pwd)/log:/dbo/log \ # папка в конейнере /dbo/log отображена на папку на хосте /current-path/log
+ --publish 8080:8080 \ # -p [host address:]8080:8080
+ --env SPRING_PROFILES_ACTIVE=qa \ # -e: в контейнере действует переменная окружения
+ --volume $(pwd)/log:/dbo/log \ # -v: папка в конейнере /dbo/log отображена на папку на хосте /current-path/log
  {{ registry-account }}/backend:1.0.0 \ #  репозиторий и тег
  --spring.profiles.active=qa # параметры командной строки
 
