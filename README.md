@@ -554,7 +554,7 @@ cd application
 ```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
-- Сценарий "Как создать и опубликовать собственный образ на основе Dockerfile?"
+- Сценарий "Как создать собственный образ на основе Dockerfile?"
 ```shell
 mkdir base
 nano base/Dockerfile 
@@ -565,13 +565,18 @@ nano base/Dockerfile
 
 docker image build \
  --tag {{ registry-account }}/base:1.0.0 \ # -t
- ./base # where Dockerfile located
+ ./base # folder where Dockerfile located
+```
 
+
+- Сценарий "Как опубликовать образ в репозитории?"
+```shell
 docker image push {{ registry-account }}/base:1.0.0
 ```
 
 - [ ] Then 
-- verify that image meet expectations: prepared base for future images holding java applications 
+- Какой entrypoint у получившегося образа?
+- Как протестировать полученный образ, что он соответствует решению задачи (базовый образ для будущих образов с упакованными java-приложениями)?
 
 
 Hands-on practice quest #03-2: _simple_ application containerization (15+5)
@@ -590,7 +595,7 @@ cd application
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как задать "чужой" образ как базовый для своих следующих образов?"
 ```shell
-nano backend/Dockerfile # TODO fix FROM for new base image
+nano backend/Dockerfile # TODO fix FROM directive to new base image
 ```  
 
 - Сценарий "Как собрать свой образ с приложением на базе Dockerfile?"
@@ -600,9 +605,9 @@ docker image build \
  ./backend
 ```
 
-- Сценарий "Как сохранить образ в репозитории?"
+- Сценарий "Как опубликовать образ в репозитории?"
 ```shell
-docker image push
+docker image push ...
 ```
 
 - Сценарий "Как запустить 'одноразовый' контейнер на базе своего образа с приложением?"
@@ -613,7 +618,7 @@ docker container run \
  --detach \ # -d
  --publish 8080:8080 \ # -p [host address:]8080:8080
  --env SPRING_PROFILES_ACTIVE=qa \ # -e: в контейнере действует переменная окружения
- --volume $(pwd)/log:/dbo/log \ # -v: папка в конейнере /dbo/log отображена на папку на хосте /current-path/log
+ --volume $(pwd)/log:/dbo/log \ # -v: папка в конейнере /dbo/log отображена на папку на хосте /current-path/log. Windows caution for $()!
  {{ registry-account }}/backend:1.0.0 \ #  репозиторий и тег
  --spring.profiles.active=qa # параметры командной строки
 ```
