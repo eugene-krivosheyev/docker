@@ -458,8 +458,6 @@ docker container cp
 - [ ] Какие действия необходимо совершить для подготовки образа в случае автоматической сборки?
 - [ ] Экстернализация конфигурации приложения при сборке образа
 - [ ] [Команда сборки образа](https://docs.docker.com/engine/reference/commandline/build/#tag-an-image--t) `docker [image] build`
-- [ ] Понятие build context
-- [ ] Кеширование при сборке (включая [`--pull`, `--no-cache`](https://docs.docker.com/engine/reference/commandline/build/#options))
 ```shell
 $ docker image build .
 Uploading context  6.76 MB
@@ -513,6 +511,8 @@ Hello Alpine
 - [ ] Кратко по оптимизации сборки:
 (подробнее в отдельном модуле)
 - Сборка `FROM scratch`, "пинцетный метод"
+- Понятие build context
+- Кеширование при сборке (включая [`--pull`, `--no-cache`](https://docs.docker.com/engine/reference/commandline/build/#options))
 - Изменение порядка директив в Dockerfile, чтобы максимально повторно использовать кеш Docker builder
 - Объединение директив, чтобы снизить количество слоёв образа
 - Multi-stage build, чтобы не тащить в итоговый образ инфраструктуру сборки
@@ -525,9 +525,13 @@ docker build --squash ...
 Hands-on practice quest #03-1: preparing base image with JRE (15)
 ---------------------------
 - [ ] Given пары участников
+- активная учетная запись на Docker Hub
+- проведена аутентификация консольного Docker CLI на Docker Hub для будущих операций `push`: `docker login`
 - Будущая структура папок, которую участники создадут в процессе этой и следующих практик
 ```shell
 application
+├── base
+│   └── Dockerfile
 ├── backend
 │   ├── Dockerfile
 │   ├── dbo-1.0-SNAPSHOT-sources.zip
@@ -544,7 +548,7 @@ application
 │   └── wiremock-standalone-2.27.2.jar
 └── docker-compose.yml
 ```
-- Дана рабочая папка проекта
+- Задана рабочая папка
 ```shell
 cd application
 ```
@@ -552,16 +556,23 @@ cd application
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как создать и опубликовать собственный образ на основе Dockerfile?"
 ```shell
-cat backend/Dockerfile # check it for reference of new base/Dockerfile
-
 mkdir base
-nano base/Dockerfile #TODO describe image that based on CentOS fixed fresh available version and install java-1.8.0-openjdk-headless with `yum install -y`
+nano base/Dockerfile 
+# TODO: update Dockerfile
+# - describe image that based on Alpine _fixed_ fresh version available at your docker registry
+# - update package manager cache with `apk update`
+# - install package `openjdk11-jre-headless` with `apk add`
 
 docker image build \
  --tag {{ registry-account }}/base:1.0.0 \ # -t
  ./base # where Dockerfile located
+
 docker image push {{ registry-account }}/base:1.0.0
 ```
+
+- [ ] Then 
+- verify that image meet expectations: prepared base for future images holding java applications 
+
 
 Hands-on practice quest #03-2: _simple_ application containerization (15+5)
 ---------------------------
@@ -569,23 +580,21 @@ Hands-on practice quest #03-2: _simple_ application containerization (15+5)
 - пары участников
 - опубликованные базовые образы других команд
 - Dockerfiles для основных сервисов приложения
+- активная учетная запись на Docker Hub
+- проведена аутентификация консольного Docker CLI на Docker Hub для будущих операций `push`: `docker login`
+- Задана рабочая папка
+```shell
+cd application
+```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как задать "чужой" образ как базовый для своих следующих образов?"
 ```shell
-cd application
 nano backend/Dockerfile # TODO fix FROM for new base image
 ```  
 
-- Сценарий "Как описать provision образа в Dockerfile?"
-```shell
-cd application/backend
-cat Dockerfile # check out application's default configuration
-```
-
 - Сценарий "Как собрать свой образ с приложением на базе Dockerfile?"
 ```shell
-cd application
 docker image build \
  --tag {{ registry-account }}/backend:1.0.0 \ # -t
  ./backend
@@ -593,11 +602,10 @@ docker image build \
 
 - Сценарий "Как сохранить образ в репозитории?"
 ```shell
-docker login
 docker image push
 ```
 
-- Сценарий "Как запустить "одноразовый" контейнер на базе своего образа с приложением?"
+- Сценарий "Как запустить 'одноразовый' контейнер на базе своего образа с приложением?"
 ```shell
 docker container run \
  --name backend \
@@ -608,20 +616,33 @@ docker container run \
  --volume $(pwd)/log:/dbo/log \ # -v: папка в конейнере /dbo/log отображена на папку на хосте /current-path/log
  {{ registry-account }}/backend:1.0.0 \ #  репозиторий и тег
  --spring.profiles.active=qa # параметры командной строки
+```
+
+- Сценарий "Как протестировать запущенное в контейнере приложение"
+```shell
+docker container ls --all 
 
 curl localhost:8080/dbo/actuator/health
-curl -X POST localhost:8080/dbo/actuator/shutdown
+open http://localhost:8080/dbo/swagger-ui.html
+```
 
-docker container ls --all 
+- Сценарий "Как остановить приложение"
+```shell
+curl -X POST localhost:8080/dbo/actuator/shutdown
+```
+
+- Сценарий "Как остановить контейнер"
+```shell
+docker container stop 
 ```
 
 - [ ] Then участники делятся проблемами и отвечают на вопросы
-- Как проименовали сценарии?
 - В каком порядке выполнялись директивы Dockerfile?
 - Сколько новых layers добавила сборка к базовому образу?
 - Когда и по какой причине остановился контейнер?
+- Что происходит с процессом приложения, когда останавливаем контейнер?
 - Сколько раз вы столкнулись с настройкой экстернализированной конфигурации приложения?
-- Какие приориеты у этих точек конфигурации?
+- Какие приоритеты у этих точек конфигурации?
 - Что случится при запуске контейнера с параметром командной строки `docker run ... --spring.profiles.active=preprod` ?
 
 Введение в контейнеризацию составного приложения (15)
@@ -683,10 +704,11 @@ docker container run \
  --env SPRING_DATASOURCE_PASSWORD=dbo \
  --env SPRING_INTEGRATION_LEGACYACCOUNTINGSYSTEM_BASEURL="http://$(hostname -i):8888/api" \
  {{ registry-account }}/backend:1.0.0
+
 curl -H "X-API-VERSION:1" localhost:8080/dbo/actuator/health [| jq]
 curl -H "X-API-VERSION:1" localhost:8080/dbo/api/account [| jq]
+open "http://$(hostname -i):8080/dbo/swagger-ui.html"
 ```
-open http://{{ external host ip }}:8080/dbo/swagger-ui.html
 
 - Сценарий "Как ...?"
 ```shell
