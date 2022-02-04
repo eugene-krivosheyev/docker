@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim
+FROM p142h/base:1.0.0
 EXPOSE 8080
 WORKDIR /dbo
 COPY dbo-1.0-SNAPSHOT.jar .

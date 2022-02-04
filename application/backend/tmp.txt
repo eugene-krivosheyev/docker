@@ -1,0 +1,13 @@
+FROM ekr26/base:1.0.0
+EXPOSE 8080
+WORKDIR /dbo
+COPY dbo-1.0-SNAPSHOT.jar .
+ENV SPRING_PROFILE=qa
+COPY docker-entrypoint.sh .
+ENTRYPOINT ./docker-entrypoint.sh
+
+
+docker-entrypoint.sh:
+#!bin/sh
+
+java -Dspring.profiles.active=$SPRING_PROFILE -jar dbo-1.0-SNAPSHOT.jar
