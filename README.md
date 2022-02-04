@@ -5,6 +5,7 @@ Intro to Docker
 Recordings
 ==========
 - [02.02](https://us02web.zoom.us/rec/share/CqjZ1IKNDQOSr99Qvqp-ckLvJyGe7hY9aICBJkhi3_Q-ME7Pus1vE2aTiLxN6Qpq.V0xbemQwPLFzFc3z)
+- [04.02](https://us02web.zoom.us/rec/share/EsRrIYAnovtTPFESkKF_u6mGh2M9SkKvfpjTY7cZvgNdyFEGnEY-GpdQpnqfOpl2.paDHs7gk1ozD02F4)
 
 Prerequisites
 =============
