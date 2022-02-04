@@ -11,3 +11,6 @@ docker-entrypoint.sh:
 #!bin/sh
 
 java -Dspring.profiles.active=$SPRING_PROFILE -jar dbo-1.0-SNAPSHOT.jar
+
+
+test
