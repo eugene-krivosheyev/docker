@@ -652,44 +652,42 @@ docker container stop
 
 Введение в контейнеризацию составного приложения (15)
 ------------------------------------------------
-- [ ] Что нужно для целостной работы multi-container приложения?
-- Целостная сборка образов (опционально)
-- Целостный запуск, работа и завершение
 - [ ] Какие ресурсы необходимо виртуализировать?
 - network
 - volumes/folders
-- [ ] Оркестраторы:  `compose`, `swarm`, `k8s (+minikube)` и их ограничения
-- [ ] Клиенты оркестраторов: Docker Compose (+build) и Docker Stack over Swarm/k8s/minikube (-build)
-- [ ] Демо `cat docker-compose.yml`
+- cpu, memory
+- [ ] Что нужно для целостной работы multi-container приложения?
+- Целостная сборка образов (ответственность build pipeline)
+- Целостный запуск, работа и завершение (ответственность оркестратора)
 
-Hands-on practice quest #04: _multi-component_ application containerization (25+5)
+Hands-on practice quest #04-1: _multi-component_ application containerization (25+5)
 ---------------------------
 - [ ] Given пары участников
+- [ ] Задана дефолтная папка
+```shell
+cd application
+```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как ...?"
 ```shell
-cd application/backend
-nano Dockerfile # TODO fix active Spring profile to `preprod` instead of `qa`
+nano backend/Dockerfile # TODO fix default Spring profile to `preprod` instead of `qa`
 docker image build --tag {{ registry-account }}/backend:1.0.0 ./backend
 
-cd application/stub
-nano Dockerfile # TODO fix FROM for new custom base image
+nano stub/Dockerfile # TODO fix FROM for new custom base image
 docker image build --tag {{ registry-account }}/stub:1.0.0 ./stub
 ```
 
 - Сценарий "Как ...?"
 ```shell
-cd application
-
 docker container run \
  --detach \
  --name db \
  --publish 5432:5432 \
- --volume db:/var/lib/postgresql/data \
- --env POSTGRES_DB=dbo-db \
+ --volume db:/var/lib/postgresql/data \ # volume created and mounted
+ --env POSTGRES_DB=dbo-db \ 
  --env POSTGRES_USER=dbo \
- --env POSTGRES_PASSWORD=dbo \
+ --env POSTGRES_PASSWORD=dbo \ # required
  postgres:11-alpine
  
 docker container run \
@@ -703,12 +701,13 @@ docker container run \
  --detach \
  --name backend \
  --publish 8080:8080 \
- --env SPRING_PROFILES_ACTIVE=preprod \ # необязательно, установили как параметр командной строки в Dockerfile
+ --env SPRING_PROFILES_ACTIVE=preprod \ # необязательно, установили как дефолт командной строки запуска в Dockerfile
  --env SPRING_DATASOURCE_URL="jdbc:postgresql://$(hostname -i)/dbo-db" \
  --env SPRING_DATASOURCE_USERNAME=dbo \
  --env SPRING_DATASOURCE_PASSWORD=dbo \
  --env SPRING_INTEGRATION_LEGACYACCOUNTINGSYSTEM_BASEURL="http://$(hostname -i):8888/api" \
- {{ registry-account }}/backend:1.0.0
+ {{ registry-account }}/backend:1.0.0 \
+   --spring.profiles.active=preprod # необязательно, установили как дефолт командной строки запуска в Dockerfile
 
 curl -H "X-API-VERSION:1" localhost:8080/dbo/actuator/health [| jq]
 curl -H "X-API-VERSION:1" localhost:8080/dbo/api/account [| jq]
@@ -734,66 +733,6 @@ docker container rm [--force]
 - Какие ресурсы были виртуализированы?
 - Какой оркестратор использовался?
 
-Изоляция данных (15)
----------------
-- [x] Что происходит с изменениями в образе при остановке контейнера?
-- [x] Как зафиксировать изменения в образе?
-- [x] Как откатить изменения в образе?
-- [ ] Как можно сохранять изменения на диске вне образа?
-- [ ] Stateful VS Stateless containers
-- [ ] [Управление данными на хостовой машине](https://docs.docker.com/storage/)
-- [Shared folders](https://docs.docker.com/storage/bind-mounts/#start-a-container-with-a-bind-mount) как подмонтированные FS
-```shell
-cd application
-docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у folder абсолютные, начинаются с "/"
-```
-- [Volumes](https://docs.docker.com/storage/volumes/) как инкапсулированные хранилища данных
-```shell
-cd application
-docker container run --volume my_volume:/folder/file:ro # имя volume не начинается с "/"
-```
-- [ ] Жизненный цикл `docker volume`
-- `docker volume create` | `docker run --volume` | `docker build` + Dockerfile
-- `docker volume ls`
-- `docker volume inspect`
-- `docker volume rm` | `docker volume prune`
-
-Hands-on practice quest #05: multi-component _stateful_ application containerization (15+5)
----------------------------
-- [ ] Given пары участников
-
-- [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
-- Сценарий "Как пробросить shared folder с хостовой системы в контейнер?"
-```shell
-docker container run -v # TODO Сделать proxy/Dockerfile ненужным: пробросить nginx.conf как read-only файл в контейнер proxy при его запуске (не при сборке)
-```
-
-- Сценарий "Как посмотреть volumes/folders контейнера?"
-```shell
-docker container inspect # "Mounts"
-```
-
-- Сценарий "Как посмотреть все текущие volumes?"
-```shell
-docker volume ...
-```
-
-- Сценарий "Как удалить неиспользуемую volume?"
-```shell
-docker volume ...
-```
-
-- Сценарий "Как управлять volume и shared folder в docker-compose?"
-```shell
-cd application
-nano docker-compose.yml
-```
-
-- [ ] Then участники делятся проблемами и отвечают на вопросы
-- Как проименовали сценарии?
-- Где физически храняться volume?
-- Что такое "неиспользуемые" volume?
-
 Виртуализация сети (15)
 ------------------
 - [x] Отображение портов
@@ -804,16 +743,27 @@ nano docker-compose.yml
 - [ ] [`localhost` issue](https://pythonspeed.com/articles/docker-connection-refused/)
 - слушайте 0.0.0.0
 
-Hands-on practice quest #06: _networked_ multi-component stateful application containerization (0)
+Hands-on practice quest #04-2: _networked_ multi-component application containerization (0)
 ---------------------------
 - [ ] Given пары участников
 - В случае podman для работы символьных имен хостов в виртуальных сетях необходимо [собрать и сконфигурировать плагин `dnsname`](https://github.com/containers/dnsname/blob/master/README_PODMAN.md)
+- [ ] Задана дефолтная папка
+```shell
+cd application
+```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
+- - Сценарий "Как посмотреть сети?"
+```shell
+docker network ls
+```
 - Сценарий "Как создать виртуальную сеть?"
 ```shell
-docker network ...
+docker network create [--help]
 ```
+
+- Сценарий "Как запустить контейнеры в виртуальной сети?"
+> Look ma, no port mappings!
 
 ```shell
 docker container run \
@@ -842,10 +792,11 @@ docker container run \
  --env SPRING_DATASOURCE_PASSWORD=dbo \
  --env SPRING_INTEGRATION_LEGACYACCOUNTINGSYSTEM_BASEURL="http://stub:8888/api" \ # hostname instead of external ip is the result of virtualizing network
  {{ registry-account }}/backend:1.0.0
+   --spring.profiles.active=preprod
 ```
 
 ```shell
-cd application
+nano proxy/Dockerfile #TODOs
 nano proxy/nginx.conf #TODOs
 
 docker image build --tag {{ registry-account }}/proxy:1.0.0 ./proxy
@@ -854,13 +805,17 @@ docker container run \
  --detach \
  --network my_deployment \
  --name proxy \
- --publish 80:80 \
+ --publish 80:80 \ # Notice mandatory port mapping
  {{ registry-account }}/proxy:1.0.0
 ```
 
-- Сценарий "Как подключить контейнер к виртуальным сетям?"
 ```shell
-docker network connect 
+open [http://localhost/dbo/actuator/health](http://localhost/dbo/actuator/health)
+```
+
+- Сценарий "Как подключить работающий контейнер к виртуальным сетям?"
+```shell
+docker network connect [--help]
 docker network disconnect
 ```
 
@@ -878,7 +833,6 @@ docker network prune
 
 - Сценарий "Как управлять виртуальными сетями в docker-compose?"
 ```shell
-cd application
 nano docker-compose.yml
 ```
 
@@ -887,6 +841,70 @@ nano docker-compose.yml
 - Какая сетевая топология определяется по умолчанию?
 - Для каких контейнеров мы определили меппинг портов? Почему не для всех?
 - Как мы задаем хосты в экстернализированной конфигурации приложений? Почему не ip?
+
+
+Изоляция данных (15)
+---------------
+- [x] Что происходит с изменениями в образе при остановке контейнера?
+- [x] Как зафиксировать изменения в образе?
+- [x] Как откатить изменения в образе?
+- [ ] Как можно сохранять изменения на диске вне образа?
+- [ ] Stateful VS Stateless containers
+- [ ] [Управление данными на хостовой машине](https://docs.docker.com/storage/)
+- [Shared folders](https://docs.docker.com/storage/bind-mounts/#start-a-container-with-a-bind-mount) как подмонтированные FS
+```shell
+docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у folder абсолютные, начинаются с "/"
+```
+- [Volumes](https://docs.docker.com/storage/volumes/) как инкапсулированные хранилища данных
+```shell
+docker container run --volume my_volume:/folder/file:ro # имя volume не начинается с "/"
+```
+- [ ] Жизненный цикл `docker volume`
+- `docker volume create` | `docker run --volume` | `docker build` + Dockerfile
+- `docker volume ls`
+- `docker volume inspect`
+- `docker volume rm` | `docker volume prune`
+- [ ] [Миграция volumes](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes)
+
+Hands-on practice quest #05: multi-component _stateful_ application containerization (15+5)
+---------------------------
+- [ ] Given пары участников
+- [ ] Задана дефолтная папка
+```shell
+cd application
+```
+
+- [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
+- Сценарий "Как пробросить shared folder с хостовой системы в контейнер?"
+```shell
+docker container run -v # TODO Сделать proxy/Dockerfile ненужным: пробросить nginx.conf как read-only файл в контейнер proxy при его *запуске* (не при сборке)
+```
+
+- Сценарий "Как посмотреть volumes/folders контейнера?"
+```shell
+docker container inspect # | grep "Mounts"
+```
+
+- Сценарий "Как посмотреть все текущие volumes?"
+```shell
+docker volume ls
+```
+
+- Сценарий "Как удалить неиспользуемую volume?"
+```shell
+docker volume rm
+```
+
+- Сценарий "Как управлять volume и shared folder в docker-compose?"
+```shell
+nano docker-compose.yml
+```
+
+- [ ] Then участники делятся проблемами и отвечают на вопросы
+- Как проименовали сценарии?
+- Где физически храняться volume?
+- Что такое "неиспользуемые" volume?
+
 
 Изоляция хостовых ресурсов (20)
 --------------------------
@@ -917,7 +935,6 @@ docker container run # ограничить по CPU и памяти, чтобы
 
 - Сценарий "Как лимитировать ресурсы в docker-compose?"
 ```shell
-cd application
 nano docker-compose.yml # ограничить по CPU, чтоб не баловал и по памяти, чтобы получить OOME
 ```
 
@@ -1004,6 +1021,44 @@ docker builder prune [--all]
 - [ ] Then участники делятся проблемами и отвечают на вопросы
 - Как проименовали сценарии?
 - Насколько получилось оптимизировать сборки в измеряемых метриках?
+
+Оркестрация
+-----------
+- [ ] Оркестраторы:  `compose`, `swarm`, `k8s (+minikube)` и их ограничения
+- [ ] Клиенты оркестраторов: Docker Compose (+build) и Docker Stack over Swarm/k8s/minikube (-build)
+- [ ] Демо `cat docker-compose.yml`
+
+Hands-on practice quest #09: orchestration of build-optimized networked multi-component stateful application resource-limited containerization (15+5)
+---------------------------
+- [ ] Given пары участников
+
+- [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
+- Сценарий "Как посмотреть список кластеров, управляемых оркестратором сервисов (подов), контейнеров в сервисе?"
+```shell
+docker stack ls 
+docker service ls
+docker service ps ...
+```
+
+- Сценарий "Как запустить кластер (stack)?"
+```shell
+docker stack deploy --compose-file docker-compose.yml app_stack
+```
+
+- Сценарий "Как убедиться в самовосстановлении контейнеров в сервисе?"
+```shell
+docker container ps -a
+docker rm -f
+docker container ps -a
+```
+
+- Сценарий "Как остановить кластер (stack)?"
+```shell
+docker stack rm
+```
+
+- [ ] Then участники делятся проблемами и отвечают на вопросы
+- Как проименовали сценарии?
 
 [Рекомендуемые практики](https://cloud.google.com/architecture/best-practices-for-building-containers) (30)
 ----------------------
