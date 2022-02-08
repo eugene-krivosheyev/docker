@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="408px" preserveAspectRatio="none" style="width:423px;height:408px;background:#FFFFFF;" version="1.1" viewBox="0 0 423 408" width="423px" zoomAndPan="magnify"><defs><filter height="300%" id="f1loqfypw036kg" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[c8375d0abf05781a4d00ac7db9cff037]
+cluster host--><polygon fill="#FFFFFF" filter="url(#f1loqfypw036kg)" points="16,16,26,6,406,6,406,391.72,396,401.72,16,401.72,16,16" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="396" x2="406" y1="16" y2="6"/><line style="stroke:#000000;stroke-width:1.5;" x1="16" x2="396" y1="16" y2="16"/><line style="stroke:#000000;stroke-width:1.5;" x1="396" x2="396" y1="16" y2="401.72"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="37" x="188.5" y="31.9951">host</text><!--MD5=[cb1e694199d2831826a6884f16783de3]
+cluster virtual\nnetwork--><rect fill="#FFFFFF" filter="url(#f1loqfypw036kg)" height="237" style="stroke:#000000;stroke-width:1.5;" width="326" x="48" y="132.72"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="54" x="184" y="147.7151">virtual</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="66" x="178" y="164.012">network</text><!--MD5=[e937783d151d78c9e87fd4c0d99f7485]
+entity proxy--><rect fill="#FEFECE" filter="url(#f1loqfypw036kg)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="81" x="64.5" y="183.72"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="125.5" y="188.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="123.5" y="190.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="123.5" y="194.72"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="41" x="79.5" y="216.7151">proxy</text><!--MD5=[4e8ecd94af36cce41665c9f079adf9fd]
+entity backend--><rect fill="#FEFECE" filter="url(#f1loqfypw036kg)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="102" x="181" y="183.72"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="263" y="188.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="261" y="190.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="261" y="194.72"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="196" y="216.7151">backend</text><!--MD5=[e4679e91b5107b1d6f14b392c0de4394]
+entity stub--><rect fill="#FEFECE" filter="url(#f1loqfypw036kg)" height="62.5938" style="stroke:#A80036;stroke-width:1.5;" width="100" x="182" y="290.72"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="262" y="295.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="260" y="297.72"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="260" y="301.72"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="60" x="197" y="323.7151">external</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51" x="197" y="340.012">service</text><!--MD5=[7468467f3b6b392f1d176d828c753b77]
+entity db--><path d="M318.5,194.22 C318.5,184.22 338,184.22 338,184.22 C338,184.22 357.5,184.22 357.5,194.22 L357.5,219.5169 C357.5,229.5169 338,229.5169 338,229.5169 C338,229.5169 318.5,229.5169 318.5,219.5169 L318.5,194.22 " fill="#FEFECE" filter="url(#f1loqfypw036kg)" style="stroke:#000000;stroke-width:1.5;"/><path d="M318.5,194.22 C318.5,204.22 338,204.22 338,204.22 C338,204.22 357.5,204.22 357.5,194.22 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="19" x="328.5" y="221.2151">db</text><!--MD5=[d2a34f0100b430a59c78815b7c3ec9aa]
+link host to proxy--><path d="M105,38.841 C105,42.579 105,131.951 105,178.332 " fill="none" id="host-proxy" style="stroke:#A80036;stroke-width:1.0;"/><rect fill="#FFFFFF" height="10" style="stroke:#A80036;stroke-width:1.5;" width="10" x="100" y="178.495"/><rect fill="#FFFFFF" height="10" style="stroke:#A80036;stroke-width:1.5;" width="10" x="100" y="33.841"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="26" x="121" y="81.7869">port</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="56" x="106" y="96.9197">mapping</text><!--MD5=[ef0c5fe5e52b773d9c56f9d04c6e5c02]
+link proxy to backend--><path d="M145.68,206.72 C157.369,206.72 169.058,206.72 180.747,206.72 " fill="none" id="proxy-backend" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[11aba444aaed1477ca29eccfc8a96c84]
+link backend to stub--><path d="M232,229.873 C232,247.163 232,271.38 232,290.536 " fill="none" id="backend-stub" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[164906b3333609339db5c9ea3f301200]
+link backend to db--><path d="M283.344,206.72 C295.015,206.72 306.687,206.72 318.358,206.72 " fill="none" id="backend-db" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[654280782925318b22dc8d8abd32454a]
+@startuml
+node host {
+    rectangle "virtual\nnetwork" {
+        component "proxy"    
+        component "backend"
+        component "external\nservice" as stub
+        database "db"
+    }
+  
+  host #- -# proxy : "port\nmapping"
+  proxy - backend
+  backend - - stub
+  backend - db
+}
+@enduml
+
+PlantUML version 1.2022.2beta1(Unknown compile time)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

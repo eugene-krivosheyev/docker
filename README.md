@@ -652,6 +652,29 @@ docker container stop
 
 Введение в контейнеризацию составного приложения (15)
 ------------------------------------------------
+![structure](img/components-architecture.svg)
+<details>
+<summary>puml</summary>
+
+```puml
+@startuml
+node host {
+    rectangle "virtual\nnetwork" {
+        component "proxy"    
+        component "backend"
+        component "external\nservice" as stub
+        database "db"
+    }
+  
+  host #--# proxy : "port\nmapping"
+  proxy - backend
+  backend -- stub
+  backend - db
+}
+@enduml
+```
+</details>
+
 - [ ] Какие ресурсы необходимо виртуализировать?
 - network
 - volumes/folders
