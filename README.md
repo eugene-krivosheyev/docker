@@ -878,7 +878,7 @@ nano docker-compose.yml
 ```shell
 docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у folder абсолютные, начинаются с "/"
 ```
-- [Volumes](https://docs.docker.com/storage/volumes/) как инкапсулированные хранилища данных
+- [Volumes](https://docs.docker.com/storage/volumes/) как [инкапсулированные хранилища данных](https://stackoverflow.com/a/41935728)
 ```shell
 docker container run --volume my_volume:/folder/file:ro # имя volume не начинается с "/"
 ```
