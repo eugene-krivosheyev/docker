@@ -708,8 +708,8 @@ docker container run \
  --name db \
  --publish 5432:5432 \
  --volume db:/var/lib/postgresql/data \ # volume created and mounted
- --env POSTGRES_DB=dbo-db \ 
- --env POSTGRES_USER=dbo \
+ --env POSTGRES_DB=dbo-db \ # postgres
+ --env POSTGRES_USER=dbo \ # postgres
  --env POSTGRES_PASSWORD=dbo \ # required
  postgres:11-alpine
  
