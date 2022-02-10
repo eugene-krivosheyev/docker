@@ -479,6 +479,7 @@ Successfully built 99cc1ad10469
 - [`EXPOSE`](https://docs.docker.com/engine/reference/builder/#expose) documentation
 - [`VOLUME`](https://docs.docker.com/engine/reference/builder/#volume)
 - [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint) [and](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact) [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd) (+ preferred `exec` and similar `default parameters to ENTRYPOINT`, `shell` forms)
+- [`LABEL`](https://docs.docker.com/engine/reference/builder/#label)
 ```shell
 docker container run [--entrypoint Dockerfile's ENTRYPOINT override] IMAGE [Dockerfile's CMD defaults override] 
 ```
@@ -652,36 +653,54 @@ docker container stop
 
 Введение в контейнеризацию составного приложения (15)
 ------------------------------------------------
-![structure](img/components-architecture.svg)
+- [ ] Какие ресурсы необходимо виртуализировать?
+- network
+- volumes/folders
+- cpu, memory
+
+- [ ] Что нужно для целостной работы multi-container приложения?
+- Целостная сборка образов (ответственность build pipeline)
+- Целостный запуск, работа и завершение (ответственность оркестратора)
+
+- [ ] Варианты [сетевой топологии](https://docs.docker.com/network/#network-drivers)
+- `host network` portability issue 
+
+Default Bridge Network:
+![structure](img/bridge-net-architecture.svg)
 <details>
 <summary>puml</summary>
 
 ```puml
 @startuml
+actor User
+
 node host {
-    rectangle "virtual\nnetwork" {
-        component "proxy"    
-        component "backend"
-        component "external\nservice" as stub
-        database "db"
+    rectangle "host\nnetwork" as host_net #line.dotted {
+        [curl]
+        [browser] 
+    }
+
+    rectangle "virtual\nnetwork" as virt_net_backend #line.dotted {
+        [backend]
     }
   
-  host #--# proxy : "port\nmapping"
-  proxy - backend
-  backend -- stub
-  backend - db
+    rectangle "virtual\nnetwork" as virt_net_db #line.dotted {
+        database "db"
+    }
+
+    rectangle "virtual\nnetwork" as virt_net_stub #line.dotted {
+        component "external\nservice" as stub
+    }
+
+    virt_net_backend #--# host_net : "port mapping"
+    virt_net_db #-# host_net
+    virt_net_stub #-# host_net
 }
+
+User - browser
 @enduml
 ```
 </details>
-
-- [ ] Какие ресурсы необходимо виртуализировать?
-- network
-- volumes/folders
-- cpu, memory
-- [ ] Что нужно для целостной работы multi-container приложения?
-- Целостная сборка образов (ответственность build pipeline)
-- Целостный запуск, работа и завершение (ответственность оркестратора)
 
 Hands-on practice quest #04-1: _multi-component_ application containerization (25+5)
 ---------------------------
@@ -758,8 +777,42 @@ docker container rm [--force]
 
 Виртуализация сети (15)
 ------------------
+Виртуальная сеть:
+![structure](img/virt-net-architecture.svg)
+<details>
+<summary>puml</summary>
+
+```puml
+@startuml
+actor User
+
+node host {
+    rectangle "host\nnetwork" as host_net #line.dotted {
+        [curl]
+        [browser]
+    }
+
+    rectangle "virtual\nnetwork" as virt_net #line.dotted {
+        component "proxy"    
+        component "backend"
+        component "external\nservice" as stub
+        database "db"
+    }
+  
+  
+    proxy -# backend
+    backend --# stub
+    backend -# db
+    host_net #--# proxy : "port\nmapping"
+    browser -- host_net : "localhost"
+}
+
+User - browser
+@enduml
+```
+</details>
+
 - [x] Отображение портов
-- [ ] Варианты [сетевой топологии](https://docs.docker.com/network/#network-drivers)
 - [ ] Разрешение адресов и имен в виртуальных сетях
 - `--name` default hostname
 - `--hostname` explicit hostname
@@ -868,12 +921,12 @@ nano docker-compose.yml
 
 Изоляция данных (15)
 ---------------
-- [x] Что происходит с изменениями в образе при остановке контейнера?
-- [x] Как зафиксировать изменения в образе?
-- [x] Как откатить изменения в образе?
-- [ ] Как можно сохранять изменения на диске вне образа?
-- [ ] Stateful VS Stateless containers
-- [ ] [Управление данными на хостовой машине](https://docs.docker.com/storage/)
+- [ ] Что происходит с изменениями в образе при остановке контейнера?
+- [ ] Как зафиксировать изменения в образе?
+- [ ] Как откатить изменения в образе?
+- [ ] Как можно сохранять изменения на диске _вне_ образа? (stateful containers)
+- [Управление данными на хостовой машине](https://docs.docker.com/storage/)
+- [tmpfs](https://docs.docker.com/storage/tmpfs/), Linux only feature
 - [Shared folders](https://docs.docker.com/storage/bind-mounts/#start-a-container-with-a-bind-mount) как подмонтированные FS
 ```shell
 docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у folder абсолютные, начинаются с "/"
@@ -882,12 +935,15 @@ docker container run --volume "$(pwd)"/folder/file:/folder/file:ro # пути у
 ```shell
 docker container run --volume my_volume:/folder/file:ro # имя volume не начинается с "/"
 ```
-- [ ] Жизненный цикл `docker volume`
-- `docker volume create` | `docker run --volume` | `docker build` + Dockerfile
-- `docker volume ls`
-- `docker volume inspect`
-- `docker volume rm` | `docker volume prune`
-- [ ] [Миграция volumes](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes)
+- [Где может располагаться volume, кроме `local`?](https://docs.docker.com/engine/extend/legacy_plugins/#volume-plugins)
+- [Миграция volumes](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes)
+
+- [ ] [Логи](https://docs.docker.com/engine/reference/commandline/logs/) 
+- консольные логи: stdout/stderr 
+- собираются и упаковываются в выбранный формат ([драйвер](https://docs.docker.com/config/containers/logging/configure/))
+```shell
+docker logs [--until=10s] test
+```
 
 Hands-on practice quest #05: multi-component _stateful_ application containerization (15+5)
 ---------------------------
@@ -898,16 +954,6 @@ cd application
 ```
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
-- Сценарий "Как пробросить shared folder с хостовой системы в контейнер?"
-```shell
-docker container run -v # TODO Сделать proxy/Dockerfile ненужным: пробросить nginx.conf как read-only файл в контейнер proxy при его *запуске* (не при сборке)
-```
-
-- Сценарий "Как посмотреть volumes/folders контейнера?"
-```shell
-docker container inspect # | grep "Mounts"
-```
-
 - Сценарий "Как посмотреть все текущие volumes?"
 ```shell
 docker volume ls
@@ -915,7 +961,53 @@ docker volume ls
 
 - Сценарий "Как удалить неиспользуемую volume?"
 ```shell
-docker volume rm
+docker volume rm ... [--help]
+docker volume prune [--help]
+```
+
+- Сценарий "Как создать volume?"
+```shell
+docker volume create ... [--help] # TODO Создать volume `db` с драйвером `local` 
+```
+
+- Сценарий "Как пробросить volume в контейнер?"
+```shell
+docker container run # TODO Сделать контейнер с СУБД stateful: сохранять данные из папки `/var/lib/postgresql/data` на volume `db`  
+  --name db \
+  --volume \ # volume создастся автоматом, если не существует
+  ...
+```
+
+- Сценарий "Как вынести ненужные изменения на временную папку?" [Linux host only]
+```shell
+docker container run 
+ --name backend
+ --tmpfs /tmp
+ --tmpfs /var/log
+ --tmpfs /dbo/log 
+```
+
+- Сценарий "Как пробросить shared folder с хостовой системы в контейнер?"
+```shell
+docker container run # TODO Сделать proxy/Dockerfile ненужным: пробросить `$(pwd)/proxy/nginx.conf` как read-only файл `/etc/nginx/nginx.conf`
+  --name proxy \
+  --volume \ # в случае shared folder абсолютный хостовой путь
+  nginx:1.21 # стоковый образ, не наш
+```
+
+- Сценарий "Как посмотреть volumes/folders _контейнера_?"
+```shell
+docker container inspect # | grep "Mounts"
+```
+
+- Сценарий "Как посмотреть консольные логи процессов?"
+```shell
+docker logs ... [--help]
+```
+
+- Сценарий "Как посмотреть изменения, сделанные процессом на файловой системе?"
+```shell
+docker container diff ... [--help] # отслеживаются ли изменения на подмонтированных внешних folder/volume?
 ```
 
 - Сценарий "Как управлять volume и shared folder в docker-compose?"
@@ -925,7 +1017,7 @@ nano docker-compose.yml
 
 - [ ] Then участники делятся проблемами и отвечают на вопросы
 - Как проименовали сценарии?
-- Где физически храняться volume?
+- Где физически храняться volume в нашем случае?
 - Что такое "неиспользуемые" volume?
 
 
@@ -937,9 +1029,9 @@ nano docker-compose.yml
 - [ ] [Лимитирование памяти и CPU](https://docs.docker.com/config/containers/resource_constraints/)
 - [ ] [Лимитирование дискового объема контейнера](https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container)
 - [ ] Лимитирование ресурсов при [запуске контейнера](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)
-- [ ] Лимитирование ресурсов в [docker-compose](https://docs.docker.com/compose/compose-file/compose-file-v3/#deploy)
 - [ ] [Как ведет себя одиночный контейнер](https://docs.docker.com/engine/reference/run/#restart-policies---restart) при ошибках контейнеризуемого приложения
 - [ ] [Как ведет себя контейнер в swarm](https://docs.docker.com/compose/compose-file/compose-file-v3/#deploy) при ошибках контейнеризуемого приложения
+- [ ] Лимитирование ресурсов в [docker-compose](https://docs.docker.com/compose/compose-file/compose-file-v3/#deploy)
 
 Hands-on practice quest #07: networked multi-component stateful application _resource-limited_ containerization (10+5)
 ---------------------------
@@ -953,12 +1045,13 @@ docker stats
 
 - Сценарий "Как лимитировать ресурсы при запуске контейнера?"
 ```shell
-docker container run # ограничить по CPU и памяти, чтобы получить OOME
+docker container run # ограничить по памяти, чтобы получить OOME
+ --name backend
 ```
 
 - Сценарий "Как лимитировать ресурсы в docker-compose?"
 ```shell
-nano docker-compose.yml # ограничить по CPU, чтоб не баловал и по памяти, чтобы получить OOME
+nano docker-compose.yml # ограничить по CPU и по памяти
 ```
 
 - [ ] Then участники делятся проблемами и отвечают на вопросы
@@ -1093,7 +1186,7 @@ docker stack rm
 1. [Линтеры](https://medium.com/@renatomefi/writing-dockerfile-like-a-software-developer-linting-9fd8c620174) для Dockerfile
 1. [COPY вместо ADD](https://nickjanetakis.com/blog/docker-tip-2-the-difference-between-copy-and-add-in-a-dockerile)
 1. Аккуратно с рекурсивным копированием + .dockerignore
-1. Фиксированные теги для идентификации образов (Semantic versioning vs Unique tags)
+1. Фиксированные теги для идентификации образов (Semantic versioning or Unique tags)
 
 - [ ] Хранение и передача конфигурации и чувствительных данных
 - [docker experimental buildkit secrets](https://blog.alexellis.io/mutli-stage-docker-builds/)
