@@ -1026,7 +1026,7 @@ nano docker-compose.yml
 - [x] Отображение портов
 - [x] Установка переменных окружения ОС для контейнера
 - [ ] [Просмотр статистики потребления ресурсов](https://docs.docker.com/engine/reference/commandline/stats/)
-- [ ] [Лимитирование памяти и CPU](https://docs.docker.com/config/containers/resource_constraints/)
+- [ ] [Лимитирование памяти и CPU](https://docs.docker.com/config/containers/resource_constraints/) и [неочевидность поведения лимитирования памяти](https://faun.pub/understanding-docker-container-memory-limit-behavior-41add155236c)
 - [ ] [Лимитирование дискового объема контейнера](https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container)
 - [ ] [Лимитирование объема volume](https://stackoverflow.com/a/40499023)
 - [ ] Лимитирование ресурсов при [запуске контейнера](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)
