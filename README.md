@@ -1028,6 +1028,7 @@ nano docker-compose.yml
 - [ ] [Просмотр статистики потребления ресурсов](https://docs.docker.com/engine/reference/commandline/stats/)
 - [ ] [Лимитирование памяти и CPU](https://docs.docker.com/config/containers/resource_constraints/)
 - [ ] [Лимитирование дискового объема контейнера](https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container)
+- [ ] [Лимитирование объема volume](https://stackoverflow.com/a/40499023)
 - [ ] Лимитирование ресурсов при [запуске контейнера](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)
 - [ ] [Как ведет себя одиночный контейнер](https://docs.docker.com/engine/reference/run/#restart-policies---restart) при ошибках контейнеризуемого приложения
 - [ ] [Как ведет себя контейнер в swarm](https://docs.docker.com/compose/compose-file/compose-file-v3/#deploy) при ошибках контейнеризуемого приложения
