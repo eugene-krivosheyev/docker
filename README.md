@@ -1141,9 +1141,11 @@ docker builder prune [--all]
 
 Оркестрация
 -----------
+- [ ] Простейшая "оркестрация" на [политиках рестарта](https://docs.docker.com/engine/reference/commandline/run/#restart-policies---restart) одиночного контейнера
 - [ ] Оркестраторы:  `compose`, `swarm`, `k8s (+minikube)` и их ограничения
-- [ ] Клиенты оркестраторов: Docker Compose (+build) и Docker Stack over Swarm/k8s/minikube (-build)
+- [ ] Клиенты оркестраторов: Docker Compose (+build) и Docker Stack over [Swarm](https://docs.docker.com/engine/swarm/)/k8s/minikube (-build)
 - [ ] Демо `cat docker-compose.yml`
+- [ ] Понятие [сервиса](https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/) в stack и реплики контейнера
 
 Hands-on practice quest #09: orchestration of build-optimized networked multi-component stateful application resource-limited containerization (15+5)
 ---------------------------
@@ -1157,9 +1159,14 @@ docker service ls
 docker service ps ...
 ```
 
-- Сценарий "Как запустить кластер (stack)?"
+- Сценарий "Как запустить кластер (stack API)?"
 ```shell
 docker stack deploy --compose-file docker-compose.yml app_stack
+```
+
+- Сценарий "Как посмотреть логи сервиса?"
+```shell
+docker service logs ...
 ```
 
 - Сценарий "Как убедиться в самовосстановлении контейнеров в сервисе?"
@@ -1169,7 +1176,7 @@ docker rm -f
 docker container ps -a
 ```
 
-- Сценарий "Как остановить кластер (stack)?"
+- Сценарий "Как остановить кластер (stack API)?"
 ```shell
 docker stack rm
 ```
