@@ -1150,6 +1150,7 @@ docker builder prune [--all]
 Hands-on practice quest #09: orchestration of build-optimized networked multi-component stateful application resource-limited containerization (15+5)
 ---------------------------
 - [ ] Given пары участников
+- [ ] Инициализация сервиса Swarm на хосте
 
 - [ ] When участники именуют сценарии, формируют свои команды и проверяют их вывод и поведение
 - Сценарий "Как посмотреть список кластеров, управляемых оркестратором сервисов (подов), контейнеров в сервисе?"
