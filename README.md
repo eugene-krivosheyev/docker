@@ -17,6 +17,8 @@ Table of Contents
 * [Hands\-on practice quest \#03\-1: preparing base image with JRE <sup>25 \+ 5</sup>](#hands-on-practice-quest-03-1-preparing-base-image-with-jre-25--5)
 * [Hands\-on practice quest \#03\-2: <em>simple</em> application containerization <sup>25 \+ 5</sup>](#hands-on-practice-quest-03-2-simple-application-containerization-25--5)
 
+---
+
 * [Введение в контейнеризацию составного приложения <sup>20</sup>](#введение-в-контейнеризацию-составного-приложения-20)
 * [Hands\-on practice quest \#04: <em>multi\-component</em> application containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-04-multi-component-application-containerization-15--5)
 * [Виртуализация сети <sup>30</sup>](#виртуализация-сети-30)
@@ -1263,7 +1265,7 @@ docker stack rm
 - Как назвали сценарии?
 
 
-[Рекомендуемые практики](https://cloud.google.com/architecture/best-practices-for-building-containers) <sup>30</sup>
+[Рекомендуемые практики <sup>30</sup>](https://cloud.google.com/architecture/best-practices-for-building-containers)
 ========================
 - [ ] Минимизировать [security риски](https://snyk.io/blog/10-docker-image-security-best-practices)
 1. Используйте минимальные образы: быстрее и меньше зависимостей + меньше рисков
