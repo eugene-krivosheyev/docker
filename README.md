@@ -455,9 +455,11 @@ docker container cp
 - требования к частоте сборок
 - требования к скорости сборок
 - требования к ресурсоемкости
+
 - [ ] Какие действия необходимо совершить для подготовки образа в случае автоматической сборки?
 - [ ] Экстернализация конфигурации приложения при сборке образа
 - [ ] [Команда сборки образа](https://docs.docker.com/engine/reference/commandline/build/#tag-an-image--t) `docker [image] build`
+- в Docker входят *два* сборщика: классический `build` и экспериментальный `buildx`
 ```shell
 $ docker image build .
 Uploading context  6.76 MB
@@ -468,6 +470,7 @@ Step 2/2 : CMD echo Hello world
  ---> 99cc1ad10469
 Successfully built 99cc1ad10469
 ```
+
 - [ ] Структура Dockerfile и декларативность директив
 - [ ] Ключевые [директивы Dockerfile](https://docs.docker.com/engine/reference/builder)
 - [`FROM`](https://docs.docker.com/engine/reference/builder/#from) + [`--platform=`](https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/)
@@ -480,6 +483,7 @@ Successfully built 99cc1ad10469
 - [`VOLUME`](https://docs.docker.com/engine/reference/builder/#volume)
 - [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint) [and](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact) [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd) (+ preferred `exec` and similar `default parameters to ENTRYPOINT`, `shell` forms)
 - [`LABEL`](https://docs.docker.com/engine/reference/builder/#label)
+
 ```shell
 docker container run [--entrypoint Dockerfile's ENTRYPOINT override] IMAGE [Dockerfile's CMD defaults override] 
 ```
@@ -512,16 +516,19 @@ Hello Alpine
 - [ ] Кратко по оптимизации сборки:
 (подробнее в отдельном модуле)
 - Сборка `FROM scratch`, "пинцетный метод"
+- Использование легковесных базовых образов
+```shell
+alpine 5.33MB
+registry.access.redhat.com/ubi8/ubi-micro 51.6MB
+ubuntu 65.6MB
+debian:stable-slim 74.3MB
+```
 - Понятие build context
-- Кеширование при сборке (включая [`--pull`, `--no-cache`](https://docs.docker.com/engine/reference/commandline/build/#options))
+- Кеширование при сборке
 - Изменение порядка директив в Dockerfile, чтобы максимально повторно использовать кеш Docker builder
 - Объединение директив, чтобы снизить количество слоёв образа
 - Multi-stage build, чтобы не тащить в итоговый образ инфраструктуру сборки
 - Объединение слоёв образа в один слой
-```shell
-docker build --squash ...
-```
-[bash-docker-squash](https://github.com/qwertycody/Bash_Docker_Squash), [docker-squash](https://github.com/goldmann/docker-squash)
 
 Hands-on practice quest #03-1: preparing base image with JRE (15)
 ---------------------------
@@ -1062,7 +1069,13 @@ nano docker-compose.yml # ограничить по CPU и по памяти
 
 Оптимизация сборки образов (20)
 --------------------------
-- [ ] Как уменьшить размер образа? Как ускорить сборку образа?
+- [ ] Как уменьшить размер образа?
+- Сборка `FROM scratch`, "пинцетный метод"
+
+- [ ] Как ускорить сборку образа?
+- Кеширование сборщиком результатов сборки = кеширование слоев
+- Понятие build context
+
 - [ ] Директивы Dockerfile как слои образа
 - каждая директива выполняется своим контейнером
 - RUN, COPY, ADD create layers
@@ -1091,6 +1104,7 @@ docker image build --tag stub ./stub
  => => writing image sha256:0a8dfafa48b9c717b862532fe441e8f2db7146a6deb8380768e6a713c75a6da4                                                                                                                                                       0.0s
  => => naming to docker.io/library/stub
 ```
+
 - [ ] Кеширование включаемых файлов и результатов директив
 ```shell
 docker image build --tag stub ./stub
@@ -1113,10 +1127,27 @@ docker image build --tag stub ./stub
  => => writing image sha256:1b7c6f374f61947cd1e96233307f4fa56dfc3c0e5fd6bf228b0e7e27803ca011                                                                                                                                                       0.0s
  => => naming to docker.io/library/stub
 ```
+
 - [ ] Оптимизации
-- [Используйте build cache](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache): порядок директив в Dockerfile
-- [Составные команды](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#sort-multi-line-arguments)
 - Выбор образа-предка: легковесные ОС, busybox и `scratch`-образ
+- [Составные команды](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#sort-multi-line-arguments)
+- [Используйте build cache](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache): порядок директив в Dockerfile
+
+- [ ] Управление кешированием
+- [`--pull`, `--no-cache`](https://docs.docker.com/engine/reference/commandline/build/#options)
+- [docker builder prune](https://docs.docker.com/engine/reference/commandline/builder_prune/)
+
+- [ ] Сквошинг
+```shell
+docker build --squash ...
+```
+- [bash-docker-squash](https://github.com/qwertycody/Bash_Docker_Squash)
+- [docker-squash](https://github.com/goldmann/docker-squash)
+
+- [ ] Multi-Stage Build
+- ["multi-stage build"](https://docs.docker.com/develop/develop-images/multistage-build/) как реализация простого build pipeline
+- Docker BuildKit (экспериментальный сборщик buildx) позволяет [монтировать хостовые папки в слоевые build-time контейнеры](https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/syntax.md#run---mounttypebind-the-default-mount-type) для кеширования данных между сборками
+ 
 
 Hands-on practice quest #08: _build-optimized_ networked multi-component stateful application resource-limited containerization (15+5)
 ---------------------------
@@ -1196,25 +1227,21 @@ docker stack rm
 1. [COPY вместо ADD](https://nickjanetakis.com/blog/docker-tip-2-the-difference-between-copy-and-add-in-a-dockerile)
 1. Аккуратно с рекурсивным копированием + .dockerignore
 1. Фиксированные теги для идентификации образов (Semantic versioning or Unique tags)
+1. Multi-Stage Build в том числе для того, чтобы в итоговый образ не утекли чувствительные данные
 
 - [ ] Хранение и передача конфигурации и чувствительных данных
 - [docker experimental buildkit secrets](https://blog.alexellis.io/mutli-stage-docker-builds/)
 - [docker compose secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets)
-- [docker swarm secrets](https://docs.docker.com/engine/swarm/secrets/)
-- [docker swarm configs](https://docs.docker.com/engine/swarm/configs/)
+- [docker swarm secrets](https://docs.docker.com/engine/swarm/secrets/) и [docker swarm configs](https://docs.docker.com/engine/swarm/configs/)
 
 - [ ] Локальное журналирование и доступ к логам
 1. docker [logging drivers](https://docs.docker.com/config/containers/logging/configure/)
 1. dedicated logs shared folders/volumes
 1. remote log collectors
 
-- [ ] Мониторинг
-- [Docker как Prometheus target](https://docs.docker.com/config/daemon/prometheus/)
-
+- [ ] Мониторинг [метрик Docker как Prometheus target](https://docs.docker.com/config/daemon/prometheus/)
 - [ ] ["Docker-из-docker"](https://stackoverflow.com/a/33003273)?
 - [ ] [Автотесты для Dockerfile](https://medium.com/@renatomefi/unit-testing-writing-dockerfiles-like-a-software-developer-1759f416ce84)
-- [ ] Паттерн [Builder](https://blog.alexellis.io/mutli-stage-docker-builds/) / ["multi-stage build"](https://docs.docker.com/develop/develop-images/multistage-build/) для конвейера разработки и поставки ПО: CI/CD pipeline
-- в том числе, чтобы в итоговый образ не утекли чувствительные данные
 
 Hands-on practice quest #09: build-optimized networked multi-component stateful application resource-limited _best practice based_ containerization (10+5)
 ---------------------------
