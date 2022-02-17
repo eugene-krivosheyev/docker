@@ -14,10 +14,11 @@ Prerequisites
 sudo dnf install -y docker
 ```
 
-<!-- gh-md-toc --depth=1 --hide-footer README.md | pbcopy -->
 Table of Contents
 -----------------
-
+<!-- gh-md-toc --depth=1 --hide-header --hide-footer README.md | pbcopy -->
+* [Intro to Docker](#intro-to-docker)
+* [Table of Contents](#table-of-contents-1)
 * [Введение в Docker <sup>45</sup>](#введение-в-docker-45)
 * [Hands\-on practice quest \#00: prerequisites sound\-check <sup>30 \+ 5</sup>](#hands-on-practice-quest-00-prerequisites-sound-check-30--5)
 * [Жизненный цикл готового образа <sup>60</sup>](#жизненный-цикл-готового-образа-60)
@@ -27,9 +28,7 @@ Table of Contents
 * [Контейнеризация простого сервиса: автоматическая сборка образа "с нуля" <sup>45</sup>](#контейнеризация-простого-сервиса-автоматическая-сборка-образа-с-нуля-45)
 * [Hands\-on practice quest \#03\-1: preparing base image with JRE <sup>25 \+ 5</sup>](#hands-on-practice-quest-03-1-preparing-base-image-with-jre-25--5)
 * [Hands\-on practice quest \#03\-2: <em>simple</em> application containerization <sup>25 \+ 5</sup>](#hands-on-practice-quest-03-2-simple-application-containerization-25--5)
-
 ---
-
 * [Введение в контейнеризацию составного приложения <sup>20</sup>](#введение-в-контейнеризацию-составного-приложения-20)
 * [Hands\-on practice quest \#04: <em>multi\-component</em> application containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-04-multi-component-application-containerization-15--5)
 * [Виртуализация сети <sup>30</sup>](#виртуализация-сети-30)
@@ -42,9 +41,9 @@ Table of Contents
 * [Hands\-on practice quest \#08: <em>build\-optimized</em> networked multi\-component stateful application resource\-limited containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-08-build-optimized-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
 * [Оркестрация <sup>30</sup>](#оркестрация-30)
 * [Hands\-on practice quest \#09: orchestration of build\-optimized networked multi\-component stateful application resource\-limited containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-09-orchestration-of-build-optimized-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
-* [<a href="https://cloud\.google\.com/architecture/best\-practices\-for\-building\-containers" rel="nofollow">Рекомендуемые практики</a> <sup>30</sup>](#рекомендуемые-практики-30)
+* [<a href="https://cloud\.google\.com/architecture/best\-practices\-for\-building\-containers" rel="nofollow">Рекомендуемые практики <sup>30</sup></a>](#рекомендуемые-практики-30)
 * [Hands\-on practice quest \#10: build\-optimized networked multi\-component stateful application resource\-limited <em>best practice based</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-10-build-optimized-networked-multi-component-stateful-application-resource-limited-best-practice-based-containerization-15--5)
-* [[optional] Docker \+ QA = ♡ <sup>30</sup>](#optional-docker--qa---30)
+* [Docker \+ QA = ♡ <sup>30</sup> [optional]](#docker--qa---30-optional)
 
 
 Введение в Docker <sup>45</sup>
