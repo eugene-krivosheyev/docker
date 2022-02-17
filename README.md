@@ -5,9 +5,8 @@ Intro to Docker
 
 <!-- gh-md-toc --depth=1 --hide-footer README.md | pbcopy -->
 Table of Contents
-=================
+-----------------
 
-* [Prerequisites](#prerequisites)
 * [Введение в Docker <sup>45</sup>](#введение-в-docker-45)
 * [Hands\-on practice quest \#00: prerequisites sound\-check <sup>30 \+ 5</sup>](#hands-on-practice-quest-00-prerequisites-sound-check-30--5)
 * [Жизненный цикл готового образа <sup>60</sup>](#жизненный-цикл-готового-образа-60)
@@ -36,7 +35,7 @@ Table of Contents
 
 
 Prerequisites
-=============
+-------------
 - [ ] RAM ≥ 4Gb
 - [ ] Права локального админа для аккаунта участника 
 - [ ] Доступен git repo с данным руководством {{ git-repo }} `https://github.com/eugene-krivosheyev/docker`
