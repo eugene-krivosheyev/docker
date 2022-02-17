@@ -45,8 +45,6 @@ Table of Contents
 * [Docker \+ QA = ♡ <sup>30</sup> [optional]](#docker--qa---30-optional)
 
 
-
-
 Введение в Docker <sup>45</sup>
 =================
 - [ ] Зачем нужен Docker? Метафора морского контейнера
@@ -1315,7 +1313,9 @@ nano Dockerfile # TODO: BUILD stage with `mvn clean verify` and QA stage with `j
 - Как назвали сценарии?
 - Какие интересные Вам метрики можно снимать?
 
+
 ---
+
 
 Docker + QA = ♡ <sup>30</sup> [optional]
 ===============
