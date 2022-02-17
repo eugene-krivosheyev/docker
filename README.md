@@ -18,7 +18,6 @@ Table of Contents
 -----------------
 <!-- gh-md-toc --depth=1 --hide-header --hide-footer README.md | pbcopy -->
 * [Intro to Docker](#intro-to-docker)
-* [Table of Contents](#table-of-contents-1)
 * [Введение в Docker <sup>45</sup>](#введение-в-docker-45)
 * [Hands\-on practice quest \#00: prerequisites sound\-check <sup>30 \+ 5</sup>](#hands-on-practice-quest-00-prerequisites-sound-check-30--5)
 * [Жизненный цикл готового образа <sup>60</sup>](#жизненный-цикл-готового-образа-60)
@@ -36,7 +35,7 @@ Table of Contents
 * [Изоляция данных <sup>45</sup>](#изоляция-данных-45)
 * [Hands\-on practice quest \#06: multi\-component <em>stateful</em> application containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-06-multi-component-stateful-application-containerization-15--5)
 * [Изоляция хостовых ресурсов <sup>30</sup>](#изоляция-хостовых-ресурсов-30)
-* [Hands\-on practice quest \#07: networked multi\-component stateful application <em>resource\-limited</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-07-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
+* [Hands\-on practice quest \#07: networked multi\-component stateful app <em>resource\-limited</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-07-networked-multi-component-stateful-app-resource-limited-containerization-15--5)
 * [Оптимизация сборки образов <sup>30</sup>](#оптимизация-сборки-образов-30)
 * [Hands\-on practice quest \#08: <em>build\-optimized</em> networked multi\-component stateful application resource\-limited containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-08-build-optimized-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
 * [Оркестрация <sup>30</sup>](#оркестрация-30)
@@ -44,6 +43,8 @@ Table of Contents
 * [<a href="https://cloud\.google\.com/architecture/best\-practices\-for\-building\-containers" rel="nofollow">Рекомендуемые практики <sup>30</sup></a>](#рекомендуемые-практики-30)
 * [Hands\-on practice quest \#10: build\-optimized networked multi\-component stateful application resource\-limited <em>best practice based</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-10-build-optimized-networked-multi-component-stateful-application-resource-limited-best-practice-based-containerization-15--5)
 * [Docker \+ QA = ♡ <sup>30</sup> [optional]](#docker--qa---30-optional)
+
+
 
 
 Введение в Docker <sup>45</sup>
