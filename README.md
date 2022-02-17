@@ -1317,7 +1317,7 @@ nano Dockerfile # TODO: BUILD stage with `mvn clean verify` and QA stage with `j
 ---
 
 Docker + QA = ♡ <sup>30</sup> [optional]
-==========================
+===============
 - [ ] Как Docker упрощает ручное тестирование
 - Версионирование как дисциплина
 - Образ для ручного тестирования с подготовленными тестовыми данными
