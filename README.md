@@ -2,6 +2,17 @@ Intro to Docker
 ===============
 Две части курса – вводная и основная: 8 + 8 ак. часов 
 
+Prerequisites
+-------------
+- [ ] RAM ≥ 4Gb
+- [ ] Права локального админа для аккаунта участника
+- [ ] Доступен git repo с данным руководством {{ git-repo }} `https://github.com/eugene-krivosheyev/docker`
+- [ ] Доступен {{ registry-host }} `https://hub.docker.com` (Docker Hub)
+- [ ] Зарегистрирована учетная запись {{ registry-account }} на {{ registry-host }}
+- [ ] Установлен Docker CE или совместимый менеджер контейнеров (e.g. Podman)
+```shell
+sudo dnf install -y docker
+```
 
 <!-- gh-md-toc --depth=1 --hide-footer README.md | pbcopy -->
 Table of Contents
@@ -34,19 +45,6 @@ Table of Contents
 * [<a href="https://cloud\.google\.com/architecture/best\-practices\-for\-building\-containers" rel="nofollow">Рекомендуемые практики</a> <sup>30</sup>](#рекомендуемые-практики-30)
 * [Hands\-on practice quest \#10: build\-optimized networked multi\-component stateful application resource\-limited <em>best practice based</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-10-build-optimized-networked-multi-component-stateful-application-resource-limited-best-practice-based-containerization-15--5)
 * [[optional] Docker \+ QA = ♡ <sup>30</sup>](#optional-docker--qa---30)
-
-
-Prerequisites
--------------
-- [ ] RAM ≥ 4Gb
-- [ ] Права локального админа для аккаунта участника 
-- [ ] Доступен git repo с данным руководством {{ git-repo }} `https://github.com/eugene-krivosheyev/docker`
-- [ ] Доступен {{ registry-host }} `https://hub.docker.com` (Docker Hub)
-- [ ] Зарегистрирована учетная запись {{ registry-account }} на {{ registry-host }}
-- [ ] Установлен Docker CE или совместимый менеджер контейнеров (e.g. Podman)
-```shell
-sudo dnf install -y docker
-```
 
 
 Введение в Docker <sup>45</sup>
