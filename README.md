@@ -1077,7 +1077,7 @@ nano docker-compose.yml
 - [ ] Лимитирование ресурсов в [docker-compose](https://docs.docker.com/compose/compose-file/compose-file-v3/#deploy)
 
 
-Hands-on practice quest #07: networked multi-component stateful application _resource-limited_ containerization <sup>15 + 5</sup>
+Hands-on practice quest #07: networked multi-component stateful app _resource-limited_ containerization <sup>15 + 5</sup>
 =======================
 - [ ] Given пары участников
 
