@@ -576,7 +576,7 @@ application
 │   └── Dockerfile
 ├── proxy
 │   ├── Dockerfile
-│   └── nginx.conf
+│   └── nginx.conf.template
 ├── stub
 │   ├── mappings
 │   │   └── legacyAccountingSystemResponse.json
@@ -914,7 +914,7 @@ docker container run \
 
 ```shell
 nano proxy/Dockerfile #TODOs
-nano proxy/nginx.conf #TODOs
+nano proxy/nginx.conf.template #TODOs
 
 docker image build --tag {{ registry-account }}/proxy:1.0.0 ./proxy
 

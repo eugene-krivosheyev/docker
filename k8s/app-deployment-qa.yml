@@ -1,0 +1,140 @@
+# qa-namespace.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: qa
+
+---
+
+# controllers/stub-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qa
+  name: stub
+  labels:
+    app: stub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stub
+  template:
+    metadata:
+      labels:
+        app: stub
+    spec:
+      containers:
+      - name: stub
+        image: ekr26/stub:1.0
+        ports:
+        - containerPort: 8888
+
+---
+
+# service/stub.yml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: qa
+  name: stub
+spec:
+  selector:
+    app: stub
+  ports:
+    - protocol: TCP
+      port: 8888
+
+---
+
+# controllers/backend-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qa
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ekr26/backend:1.0
+          ports:
+          - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: qa
+            - name: SPRING_INTEGRATION_LEGACYACCOUNTINGSYSTEM_BASEURL
+              value: http://stub.qa.svc.cluster.local:8888/api
+
+---
+
+# service/backend.yml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: qa
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+
+---
+
+# controllers/proxy-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qa
+  name: proxy
+  labels:
+    app: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+        - name: proxy
+          image: ekr26/proxy:1.0
+          ports:
+            - containerPort: 80
+          env:
+            - name: NGINX_BACKEND_HOSTNAME
+              value: backend.qa.svc.cluster.local
+
+---
+
+# service/proxy.yml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: qa
+  name: proxy
+spec:
+  type: LoadBalancer
+  selector:
+    app: proxy
+  ports:
+    - protocol: TCP
+      port: 80
+
+---
+
