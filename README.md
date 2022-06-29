@@ -2,6 +2,10 @@ Intro to Docker
 ===============
 Две части курса – вводная и основная: 8 + 8 ак. часов 
 
+Recordings
+==========
+- [29.06](https://us02web.zoom.us/rec/share/U83aB8D2e6Ffag_XwSbMnXhKMd_3fwMl_C54eCA9YD5XDzGeSev5C-Ko1B-X2s1S.f9JlUctGdTQu00Cs)
+
 Prerequisites
 -------------
 - [ ] RAM ≥ 4Gb
