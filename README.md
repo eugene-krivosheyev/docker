@@ -40,7 +40,7 @@ Table of Contents
 * [Hands\-on practice quest \#08: <em>build\-optimized</em> networked multi\-component stateful application resource\-limited containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-08-build-optimized-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
 * [Оркестрация <sup>30</sup>](#оркестрация-30)
 * [Hands\-on practice quest \#09: orchestration of build\-optimized networked multi\-component stateful application resource\-limited containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-09-orchestration-of-build-optimized-networked-multi-component-stateful-application-resource-limited-containerization-15--5)
-* [<a href="https://cloud\.google\.com/architecture/best\-practices\-for\-building\-containers" rel="nofollow">Рекомендуемые практики <sup>30</sup></a>](#рекомендуемые-практики-30)
+* [Рекомендуемые практики <sup>30</sup></a>](#рекомендуемые-практики-30)
 * [Hands\-on practice quest \#10: build\-optimized networked multi\-component stateful application resource\-limited <em>best practice based</em> containerization <sup>15 \+ 5</sup>](#hands-on-practice-quest-10-build-optimized-networked-multi-component-stateful-application-resource-limited-best-practice-based-containerization-15--5)
 * [Docker \+ QA = ♡ <sup>30</sup> [optional]](#docker--qa---30-optional)
 
