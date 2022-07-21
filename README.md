@@ -663,7 +663,7 @@ docker container run \
 docker container ls --all 
 
 curl localhost:8080/dbo/actuator/health
-open http://localhost:8080/dbo/swagger-ui.html
+open http://localhost:8080/dbo/swagger-ui/
 ```
 
 - Сценарий "Как остановить приложение"
@@ -792,7 +792,7 @@ docker container run \
 
 curl -H "X-API-VERSION:1" localhost:8080/dbo/actuator/health [| jq]
 curl -H "X-API-VERSION:1" localhost:8080/dbo/api/account [| jq]
-open "http://$(hostname -i):8080/dbo/swagger-ui.html"
+open "http://$(hostname -i):8080/dbo/swagger-ui/"
 ```
 
 - Сценарий "Как ...?"
