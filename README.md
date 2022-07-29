@@ -13,6 +13,7 @@ Recordings
 - [20.07](https://us02web.zoom.us/rec/share/xwooLmhh-YiGBUOp6FaeDKFPCyoOb8VqDe1ztTPKSouMxNxQZu-jV9U9jWJpSgsl.mF-jwq6jyj3quLJb)
 - [22.07](https://us02web.zoom.us/rec/share/tPfL3vpJG0gU1LDyt5OgUWYmczbJSKxc267PjO34BJYKDk45TtRby2MeTqaxpbuQ.-7FKLoYSn5U3iCep)
 - [27.07](https://us02web.zoom.us/rec/share/2grUZrU41pqkk_cZMD5S6ELUMX90AMh3n-M-r40Zqafx_ka8fmwf36A0OaV6q1dW.UVeJejPwWTJx4eOX)
+- [29.07](https://us02web.zoom.us/rec/share/RdJTcYXjQ4IW4gZYVHwMtAgeHsdHgIdpkY-eDiU_7fXDTl0_txaU_sUBbBrqwQ0H.Oqmk9HNNhRxz2C6b)
 
 Prerequisites
 -------------
